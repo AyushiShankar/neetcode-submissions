@@ -1,0 +1,38 @@
+class Solution {
+    public int calculate(String s) {
+        Stack<Integer> stack = new Stack<>();
+        int result = 0;
+        char sign = '+';
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+            if (Character.isDigit(ch)) {
+                result = result * 10 + (ch - '0');
+            }
+
+            if ((!Character.isDigit(ch) && ch != ' ') || i == s.length() - 1) {
+
+                if (sign == '+') {
+                    stack.push(result);
+                } else if (sign == '-') {
+                    stack.push(-result);
+                } else if (sign == '*') {
+                    stack.push(stack.pop() * result);
+                } else if (sign == '/') {
+                    stack.push(stack.pop() / result);
+                }
+
+                sign = ch;
+                result = 0;
+            }
+        }
+
+        int ans = 0;
+        while (!stack.isEmpty()) {
+            ans += stack.pop();
+        }
+
+        return ans;
+    }
+}
